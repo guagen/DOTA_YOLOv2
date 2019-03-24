@@ -12,7 +12,7 @@ def dota2darknet(imgpath, txtpath, dstpath, extractclassname):
     :param extractclassname: the category you selected
     :return:
     """
-    filelist = util.GetFileFromThisRootDir(txtpath)
+    filelist = util.GetFileFromThisRootDir(txtpath)#解析dota标注类型的TXT路径，获取路径下所有的文件名，返回一个list
     for fullname in filelist:
         objects = util.parse_dota_poly(fullname)
         name = os.path.splitext(os.path.basename(fullname))[0]
