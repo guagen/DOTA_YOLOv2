@@ -39,11 +39,12 @@ def TuplePoly2Poly(poly):
 def parse_dota_poly(filename):
     """
         parse the dota ground truth in the format:
-        [(x1, y1), (x2, y2), (x3, y3), (x4, y4)]
+        [(x1, y1), (x2, y2), (x3, y3), (x4, y4)]#此为dota的标注格式
     """
     objects = []
     #print('filename:', filename)
     f = []
+    #python版本判断
     if (sys.version_info >= (3, 5)):
         fd = open(filename, 'r')
         f = fd
@@ -52,20 +53,20 @@ def parse_dota_poly(filename):
         f = fd
     # count = 0
     while True:
-        line = f.readline()
+        line = f.readline()#读取txt文件的每一行
         # count = count + 1
         # if count < 2:
         #     continue
-        if line:
+        if line:#如果确实存在行
             splitlines = line.strip().split(' ')
             object_struct = {}
             ### clear the wrong name after check all the data
             #if (len(splitlines) >= 9) and (splitlines[8] in classname):
-            if (len(splitlines) < 9):
+            if (len(splitlines) < 9):#如果当前行的列数小于9，说明不是有效的标注
                 continue
             if (len(splitlines) >= 9):
-                    object_struct['name'] = splitlines[8]
-            if (len(splitlines) == 9):
+                    object_struct['name'] = splitlines[8]#第8列是标注信息
+            if (len(splitlines) == 9):#如果长度刚好等于9，说明是不是难识别物体
                 object_struct['difficult'] = '0'
             elif (len(splitlines) >= 10):
                 # if splitlines[9] == '1':
@@ -75,6 +76,7 @@ def parse_dota_poly(filename):
                 object_struct['difficult'] = splitlines[9]
                 # else:
                 #     object_struct['difficult'] = 0
+            #获取相关标注信息
             object_struct['poly'] = [(float(splitlines[0]), float(splitlines[1])),
                                      (float(splitlines[2]), float(splitlines[3])),
                                      (float(splitlines[4]), float(splitlines[5])),
